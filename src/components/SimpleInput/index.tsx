@@ -18,7 +18,7 @@ const SimpleInput = () => {
     setEnteredName(event.target.value);
   };
 
-  const nameInputBlurHandler = (event: React.FocusEvent<HTMLFormElement>) => {
+  const nameInputBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     setEnteredNameTouched(true);
 
     if (enteredName.trim() === '') {
