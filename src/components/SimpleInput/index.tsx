@@ -13,6 +13,10 @@ const SimpleInput = () => {
   const formSubmissonHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (enteredName.trim() === '') {
+      return;
+    }
+
     console.log('enteredName', enteredName);
 
     const enteredValue = nameInputRef.current?.value;
