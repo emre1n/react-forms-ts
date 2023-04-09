@@ -1,16 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 const SimpleInput = () => {
-  const nameInputRef = useRef<HTMLInputElement>(null);
+  // const nameInputRef = useRef<HTMLInputElement>(null);
   const [enteredName, setEnteredName] = useState('');
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
-  useEffect(() => {
-    if (enteredNameIsValid) {
-      console.log('Name Input is valid!');
-    }
-  }, [enteredNameIsValid]);
+  const enteredNameIsValid = enteredName.trim() !== '';
+  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
   const nameInputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -20,11 +16,6 @@ const SimpleInput = () => {
 
   const nameInputBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     setEnteredNameTouched(true);
-
-    if (enteredName.trim() === '') {
-      setEnteredNameIsValid(false);
-      return;
-    }
   };
 
   const formSubmissonHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -32,23 +23,19 @@ const SimpleInput = () => {
 
     setEnteredNameTouched(true);
 
-    if (enteredName.trim() === '') {
-      setEnteredNameIsValid(false);
+    if (!enteredNameIsValid) {
       return;
     }
 
-    setEnteredNameIsValid(true);
-
     console.log('enteredName', enteredName);
 
-    const enteredValue = nameInputRef.current?.value;
-    console.log('enteredValue', enteredValue);
+    // const enteredValue = nameInputRef.current?.value;
+    // console.log('enteredValue', enteredValue);
 
     // nameInputRef.current.value = ''; => NOT IDEAL, DON'T MANIPULATE THE DOM
     setEnteredName('');
+    setEnteredNameTouched(false);
   };
-
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
   const nameInputClasses = nameInputIsInvalid
     ? 'form-control invalid'
@@ -59,7 +46,7 @@ const SimpleInput = () => {
       <div className={nameInputClasses}>
         <label htmlFor="name">Your Name</label>
         <input
-          ref={nameInputRef}
+          // ref={nameInputRef}
           type="text"
           id="name"
           onChange={nameInputChangeHandler}
